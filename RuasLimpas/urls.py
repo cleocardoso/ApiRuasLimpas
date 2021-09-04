@@ -25,12 +25,10 @@ from reclamacoes.Api import viewSets as reclamacoesViewsSets
 
 
 router = routers.DefaultRouter()
-router.register(r'usuarios',usuariosViewsSets.UsuariosViewsSet,basename='usuario')
-router.register(r'reclamacoes',reclamacoesViewsSets.ReclamacoesViewsSet,basename='reclamacoes')
-
-
+router.register(r'usuarios',usuariosViewsSets.UsuariosViewsSet)
+router.register(r'reclamacoes',reclamacoesViewsSets.ReclamacoesViewsSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ] + static(settings.MEDIA_ROOT,document_root=settings.MEDIA_ROOT)
