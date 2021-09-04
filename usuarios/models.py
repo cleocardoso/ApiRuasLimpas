@@ -12,18 +12,6 @@ class usuario(models.Model):
     active = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
-    ADM = 1
-    USUARIO = 2
-
-    ROLE_CHOICES = (
-        (ADM, 'adm'),
-        (USUARIO, 'usuario'),
-    )
-
-    roles = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True)
-    def roles(self):
-        return self.get_id_display()
-
     def __str__(self):
 
         return str(self.id)

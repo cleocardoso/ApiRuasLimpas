@@ -1,11 +1,11 @@
 from django.db import models
 
-# Create your models here.
+
 from usuarios.models import usuario
 
 
 class Categoria(models.Model):
-    #user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
     LOAN_STATUS = (
         ('Lixo ', 'Lixo'),
         ('Entulhos de construção', 'Entulhos de construção'),
@@ -13,13 +13,22 @@ class Categoria(models.Model):
         ('Poldar árvores', 'Poldar árvores'),
         ('Outros', 'Outros'),
     )
+    nome = models.CharField(max_length=500, choices=LOAN_STATUS, blank=True)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+
 class Reclamacoes(models.Model):
     data = models.DateField(null=True, blank=True, name='data_reclamacao')
     bairro = models.CharField(max_length=10000)
     descricao = models.CharField(max_length=10000)
     imagem = models.ImageField(upload_to="user", blank=True, null=True)
     Usuario = models.ForeignKey(usuario, models.CASCADE, name='usuario', related_name='Usuario')
-
+    categorias = models.ManyToManyField(Categoria, related_name='Categoria')
 
 
     class Meta:
