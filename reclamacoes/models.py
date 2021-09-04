@@ -2,7 +2,8 @@ from django.db import models
 
 
 from usuarios.models import usuario
-
+def upload_Image_reclamacoes(instance,filename):
+    return f"{instance.id_user}-{filename}"
 
 class Categoria(models.Model):
 
@@ -26,7 +27,7 @@ class Reclamacoes(models.Model):
     data = models.DateField(null=True, blank=True, name='data_reclamacao')
     bairro = models.CharField(max_length=10000)
     descricao = models.CharField(max_length=10000)
-    imagem = models.ImageField(upload_to="user", blank=True, null=True)
+    imagem = models.ImageField(upload_to=upload_Image_reclamacoes, blank=True, null=True)
     Usuario = models.ForeignKey(usuario, models.CASCADE, name='usuario', related_name='Usuario')
     categorias = models.ManyToManyField(Categoria, related_name='Categoria')
 
