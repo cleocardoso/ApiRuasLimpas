@@ -25,6 +25,7 @@ class Categoria(models.Model):
 
 class Reclamacoes(models.Model):
     data = models.DateField(null=True, blank=True, name='data_reclamacao')
+    rua = models.CharField(max_length=10000)
     bairro = models.CharField(max_length=10000)
     descricao = models.CharField(max_length=10000)
     imagem = models.ImageField(upload_to=upload_Image_reclamacoes, blank=True, null=True)
