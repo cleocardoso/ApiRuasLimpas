@@ -4,14 +4,39 @@ from rest_framework.response import Response
 
 from reclamacoes.Api import serializers
 from reclamacoes import models
-from reclamacoes.models import Reclamacoes
+from reclamacoes.Api.serializers import ReclamacoesSerializer
+from reclamacoes.models import Reclamacoes, Categoria
 from reclamacoes.serializers import reclamacoesSerializer
+from solicitacoes.models import Solicitacoes
 from usuarios.models import usuario
 
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReclamacoesSerializer
     queryset = models.Reclamacoes.objects.all()
+
+    #ele vai subreescrever esse metodo da class
+    def create(self, request, *args, **kwargs):
+
+        def get_categorias(ids):
+            categorias = []
+            for id in ids:
+                categorias.append(Categoria.objects.get(id=id))
+            return categorias
+        reclamacoesReq = request.data
+        categorias = get_categorias(reclamacoesReq['categorias'])
+        print(categorias)
+        reclamacoes = Reclamacoes.objects.create(rua=reclamacoesReq['rua'],
+                                           bairro=reclamacoesReq['bairro'],
+                                           descricao=reclamacoesReq['descricao'],
+                                           usuario=usuario.objects.get(id=reclamacoesReq['usuario']))
+        reclamacoes.categorias.set(categorias)
+        Reclamacoes.save(reclamacoes)
+        solicitacao = Solicitacoes.objects.create(reclamacoes=reclamacoes)
+        Solicitacoes.save(solicitacao)
+        return Response(status=status.HTTP_201_CREATED,
+                        data=ReclamacoesSerializer(instance=reclamacoes,
+                                                context={'request': request}).data)
 
     @action(methods=['get'], detail=False, url_path='listaReclamacoes')
     def listReclamacoes(self, request):

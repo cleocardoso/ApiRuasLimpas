@@ -1,9 +1,11 @@
-from django.db import models
+from datetime import datetime
 
+from django.db import models
+from django.utils import timezone
 
 from usuarios.models import usuario
 def upload_Image_reclamacoes(instance,filename):
-    return f"{instance.id_user}-{filename}"
+    return f"{instance.usuario}-{filename}"
 
 class Categoria(models.Model):
 
@@ -24,7 +26,7 @@ class Categoria(models.Model):
         verbose_name_plural = 'Categorias'
 
 class Reclamacoes(models.Model):
-    data = models.DateField(null=True, blank=True, name='data_reclamacao')
+    data = models.DateTimeField(null=True, blank=True, default=datetime.now(), name='data_reclamacao')
     rua = models.CharField(max_length=10000)
     bairro = models.CharField(max_length=10000)
     descricao = models.CharField(max_length=10000)
