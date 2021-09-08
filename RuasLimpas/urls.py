@@ -20,13 +20,17 @@ from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 from usuarios.Api import viewSets as usuariosViewsSets
 from reclamacoes.Api import viewSets as reclamacoesViewsSets
+from solicitacoes.Api import viewSets as solicitacoesViewsSets
+
 
 
 router = routers.DefaultRouter()
 router.register(r'usuarios',usuariosViewsSets.UsuariosViewsSet)
 router.register(r'reclamacoes',reclamacoesViewsSets.ReclamacoesViewsSet)
+router.register(r'solicitacoes',solicitacoesViewsSets.SolicitacoesViewsSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
