@@ -28,6 +28,7 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
         print(categorias)
         reclamacoes = Reclamacoes.objects.create(rua=reclamacoesReq['rua'],
                                            bairro=reclamacoesReq['bairro'],
+                                           imagem=reclamacoesReq['imagem'],
                                            descricao=reclamacoesReq['descricao'],
                                            usuario=usuario.objects.get(id=reclamacoesReq['usuario']))
         reclamacoes.categorias.set(categorias)
