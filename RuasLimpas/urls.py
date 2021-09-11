@@ -27,10 +27,12 @@ from solicitacoes.Api import viewSets as solicitacoesViewsSets
 
 
 
+
 router = routers.DefaultRouter()
 router.register(r'usuarios',usuariosViewsSets.UsuariosViewsSet)
 router.register(r'reclamacoes',reclamacoesViewsSets.ReclamacoesViewsSet)
 router.register(r'solicitacoes',solicitacoesViewsSets.SolicitacoesViewsSet)
+router.register(r'categorias',reclamacoesViewsSets.categoriaViewsSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

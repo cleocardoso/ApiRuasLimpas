@@ -10,6 +10,9 @@ from reclamacoes.serializers import reclamacoesSerializer
 from solicitacoes.models import Solicitacoes
 from usuarios.models import usuario
 
+class categoriaViewsSet(viewsets.ModelViewSet):
+    serializer_class = serializers.CategoriaSerializer
+    queryset = models.Categoria.objects.all()
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReclamacoesSerializer
