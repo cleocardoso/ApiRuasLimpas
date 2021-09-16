@@ -26,8 +26,6 @@ from reclamacoes.Api import viewSets as reclamacoesViewsSets
 from solicitacoes.Api import viewSets as solicitacoesViewsSets
 
 
-
-
 router = routers.DefaultRouter()
 router.register(r'usuarios',usuariosViewsSets.UsuariosViewsSet)
 router.register(r'reclamacoes',reclamacoesViewsSets.ReclamacoesViewsSet)
