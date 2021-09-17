@@ -47,7 +47,6 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
         id_str = "id"
         id = self.request.GET.get(id_str) or self.request.session[id_str]
         user = usuario.objects.get(id=id)
-
         reclamacao = Reclamacoes.objects.filter(usuario=user).order_by('id')
 
         return Response(status=status.HTTP_200_OK,
