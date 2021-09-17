@@ -23,8 +23,8 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         def get_solicitacao(reclamacoes):
             solicitacao_by_user = Solicitacoes.objects.filter(reclamacoes=reclamacoes.id)
             data = {
-                "data": solicitacao_by_user['data'],
-                "statusConcluido": solicitacao_by_user['statusConcluido'],
+                "data": solicitacao_by_user.data,
+                "statusConcluido": solicitacao_by_user.statusConcluido,
                 "reclamacoes": reclamacoes
             }
             solicitacoes_array.append(data)
