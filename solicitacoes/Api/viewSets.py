@@ -21,7 +21,7 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         reclamacoes = Reclamacoes.objects.filter(usuario=user).order_by('id')
 
         def get_solicitacao(reclamacoes):
-            solicitacao_by_user = Solicitacoes.objects.filter(reclamacoes=reclamacoes.id).values()
+            solicitacao_by_user = Solicitacoes.objects.filter(reclamacoes=reclamacoes.id).values()[0]
             data = {
                 "data": solicitacao_by_user['data'],
                 "statusConcluido": solicitacao_by_user['statusConcluido'],
