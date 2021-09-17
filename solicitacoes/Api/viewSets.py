@@ -1,3 +1,4 @@
+from reclamacoes.Api.serializers import ReclamacoesSerializer
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -21,13 +22,18 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         reclamacoes = Reclamacoes.objects.filter(usuario=user).order_by('id')
 
         def get_solicitacao(reclamacoes):
-            solicitacao_by_user = Solicitacoes.objects.get(reclamacoes=reclamacoes.id)
-            data = {
-                "data": solicitacao_by_user.data,
-                "statusConcluido": solicitacao_by_user.statusConcluido,
-                "reclamacoes": reclamacoes
-            }
-            solicitacoes_array.append(data)
+            solicitacao_by_user = Solicitacoes.objects.filter(reclamacoes=reclamacoes.id).first()
+            #for s in solicitacao_by_user:
+            #    print(s)
+            if solicitacao_by_user:
+                data = {
+                    "data": solicitacao_by_user.data_solicitada,
+                    "statusConcluido": solicitacao_by_user.status_concluido,
+                    "reclamacoes": ReclamacoesSerializer(instance=reclamacoes,
+                                                context={'request': request}).data
+                }
+                solicitacoes_array.append(data)
+            
 
         for r in reclamacoes:
             get_solicitacao(r)
