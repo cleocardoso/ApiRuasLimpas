@@ -29,7 +29,7 @@ class UsuariosViewsSet(viewsets.ModelViewSet):
 
 
         try:
-            user = usuario.objects.get(email=email, senha=senha, active=True)
+            user = usuario.objects.get(email=email, senha=senha)
             if user:
                 return get_user(user)
         except:
