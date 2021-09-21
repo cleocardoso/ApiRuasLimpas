@@ -7,7 +7,7 @@ from reclamacoes import models
 from reclamacoes.Api.serializers import ReclamacoesSerializer
 from reclamacoes.models import Reclamacoes, Categoria
 from reclamacoes.serializers import reclamacoesSerializer
-from solicitacoes.models import Solicitacoes
+from solicitacoes.models import solicitacoes
 from usuarios.models import usuario
 
 class categoriaViewsSet(viewsets.ModelViewSet):
@@ -36,8 +36,8 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
                                            usuario=usuario.objects.get(id=reclamacoesReq['usuario']))
         reclamacoes.categorias.set(categorias)
         Reclamacoes.save(reclamacoes)
-        solicitacao = Solicitacoes.objects.create(reclamacoes=reclamacoes)
-        Solicitacoes.save(solicitacao)
+        solicitacao = solicitacoes.objects.create(reclamacoes=reclamacoes)
+        solicitacoes.save(solicitacao)
         return Response(status=status.HTTP_201_CREATED,
                         data=ReclamacoesSerializer(instance=reclamacoes,
                                                 context={'request': request}).data)

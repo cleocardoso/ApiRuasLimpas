@@ -4,14 +4,14 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from reclamacoes.models import Reclamacoes
-from solicitacoes.models import Solicitacoes
+from solicitacoes.models import solicitacoes
 from solicitacoes.Api import serializers
 from usuarios.models import usuario
 
 
 class SolicitacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = serializers.solicitacaoesSerializer
-    queryset = Solicitacoes.objects.all()
+    queryset = solicitacoes.objects.all()
 
     @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
     def list_by_user(self, request):
@@ -22,7 +22,7 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         reclamacoes = Reclamacoes.objects.filter(usuario=user).order_by('id')
 
         def get_solicitacao(reclamacoes):
-            solicitacao_by_user = Solicitacoes.objects.filter(reclamacoes=reclamacoes.id).first()
+            solicitacao_by_user = solicitacoes.objects.filter(reclamacoes=reclamacoes.id).first()
             #for s in solicitacao_by_user:
             #    print(s)
             if solicitacao_by_user:
