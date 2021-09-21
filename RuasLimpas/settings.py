@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'usuarios',
     'reclamacoes',
-    'solicitacoes',
+    #'solicitacoes',
+    'Solicitacoes'
 ]
 
 MIDDLEWARE = [
