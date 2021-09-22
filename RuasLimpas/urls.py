@@ -21,9 +21,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from usuarios.Api import viewSets as usuariosViewsSets
-from reclamacoes.Api import viewSets as reclamacoesViewsSets
-from solicitacoes.Api import viewSets as solicitacoesViewsSets
+from .usuarios.Api import viewSets as usuariosViewsSets
+from .reclamacoes.Api import viewSets as reclamacoesViewsSets
+from .solicitacoes.Api import viewSets as solicitacoesViewsSets
 
 
 router = routers.DefaultRouter()
