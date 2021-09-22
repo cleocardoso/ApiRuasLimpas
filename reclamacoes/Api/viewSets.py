@@ -2,21 +2,19 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from reclamacoes.Api import serializers
-from reclamacoes import models
-from reclamacoes.Api.serializers import ReclamacoesSerializer
+from reclamacoes.Api.serializers import ReclamacoesSerializer, CategoriaSerializer
 from reclamacoes.models import Reclamacoes, Categoria
 from reclamacoes.serializers import reclamacoesSerializer
 from solicitacoes.models import solicitacoes
 from usuarios.models import usuario
 
 class categoriaViewsSet(viewsets.ModelViewSet):
-    serializer_class = serializers.CategoriaSerializer
-    queryset = models.Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    queryset = Categoria.objects.all()
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
-    serializer_class = serializers.ReclamacoesSerializer
-    queryset = models.Reclamacoes.objects.all()
+    serializer_class = ReclamacoesSerializer
+    queryset = Reclamacoes.objects.all()
 
     #ele vai subreescrever esse metodo da class
     def create(self, request, *args, **kwargs):
