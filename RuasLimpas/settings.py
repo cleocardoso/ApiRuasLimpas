@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
+import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -88,13 +88,13 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'dbe26rb0g306vq',
+        'NAME': env('DATABASE_NAME'),
 
-        'USER': 'goupljeppcoqwc',
+        'USER': env('USERNAME'),
 
-        'PASSWORD': '8022d12979879a14c2648330e237938e69f6bd86712b922d3db19ad7250851e0',
+        'PASSWORD': env('PASSWORD'),
 
-        'HOST': 'ec2-44-198-24-0.compute-1.amazonaws.com',
+        'HOST': env('HOST_NAME'),
 
         'PORT': '5432',
 
