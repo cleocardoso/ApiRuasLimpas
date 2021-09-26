@@ -33,7 +33,7 @@ class Reclamacoes(models.Model):
     imagem = models.ImageField(upload_to=upload_Image_reclamacoes, blank=True, null=True)
     Usuario = models.ForeignKey(usuario, models.CASCADE, name='usuario', related_name='Usuario')
     categorias = models.ManyToManyField(Categoria, related_name='Categoria')
-
+    trash = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'reclamacoes'

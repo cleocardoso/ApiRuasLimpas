@@ -45,9 +45,20 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
         id_str = "id"
         id = self.request.GET.get(id_str) or self.request.session[id_str]
         user = usuario.objects.get(id=id)
-        reclamacao = Reclamacoes.objects.filter(usuario=user).order_by('id')
+        reclamacao = Reclamacoes.objects.filter(usuario=user, trash=False).order_by('id')
 
         return Response(status=status.HTTP_200_OK,
                         data=reclamacoesSerializer(instance=reclamacao,
                                                 many=True,
                                                 context={'request': request}).data)
+
+    @action(methods=['delete'], detail=False, url_path='deletarReclamacoes')         
+    def deletarReclamacao(self, request):
+        id=request.GET.get('id')
+        reclamacao = Reclamacoes.objects.filter(id=id).get()
+        #reclamacao.delete()
+        reclamacao.trash = True
+        Reclamacoes.save(reclamacao)
+        return Response(status=status.HTTP_200_OK)
+
+    

@@ -13,13 +13,10 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = serializers.solicitacaoesSerializer
     queryset = solicitacoes.objects.all()
 
-    @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
-    def list_by_user(self, request):
+    def list_by_user_trash(id, trash, request):
         solicitacoes_array = []
-        id_str = "id"
-        id = self.request.GET.get(id_str) or self.request.session[id_str]
         user = usuario.objects.get(id=id)
-        reclamacoes = Reclamacoes.objects.filter(usuario=user).order_by('id')
+        reclamacoes = Reclamacoes.objects.filter(usuario=user, trash=trash).order_by('id')
 
         def get_solicitacao(reclamacoes):
             solicitacao_by_user = solicitacoes.objects.filter(reclamacoes=reclamacoes.id).first()
@@ -33,9 +30,19 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
                                                 context={'request': request}).data
                 }
                 solicitacoes_array.append(data)
-            
 
         for r in reclamacoes:
             get_solicitacao(r)
 
-        return Response(status=status.HTTP_200_OK, data=solicitacoes_array)
+        return solicitacoes_array 
+    @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
+    def list_by_user(self, request):
+        id_str = "id"
+        id = self.request.GET.get(id_str) or self.request.session[id_str]
+        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id, False, request))
+
+    @action(methods=['get'], detail=False, url_path='listLixeiraReclamacoes') 
+    def listLixeiraReclamacoes(self,request):
+        id_str = "id"
+        id = self.request.GET.get(id_str) or self.request.session[id_str]
+        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id, True, request))
