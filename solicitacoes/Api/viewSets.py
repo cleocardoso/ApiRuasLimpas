@@ -8,12 +8,7 @@ from solicitacoes.models import solicitacoes
 from solicitacoes.Api import serializers
 from usuarios.models import usuario
 
-
-class SolicitacoesViewsSet(viewsets.ModelViewSet):
-    serializer_class = serializers.solicitacaoesSerializer
-    queryset = solicitacoes.objects.all()
-
-    def list_by_user_trash(id, trash, request):
+def list_by_user_trash(id, trash, request):
         solicitacoes_array = []
         user = usuario.objects.get(id=id)
         reclamacoes = Reclamacoes.objects.filter(usuario=user, trash=trash).order_by('id')
@@ -36,15 +31,21 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
 
         return solicitacoes_array 
 
+class SolicitacoesViewsSet(viewsets.ModelViewSet):
+    serializer_class = serializers.solicitacaoesSerializer
+    queryset = solicitacoes.objects.all()
+
+    
+
     @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
     def list_by_user(self, request):
         id_str = "id"
-        id = self.request.GET.get(id_str)
-        data = self.list_by_user_trash(id=id, trash=False, request=request)
+        id = request.GET.get(id_str)
+        data = list_by_user_trash(id=id, trash=False, request=request)
         return Response(status=status.HTTP_200_OK, data=data)
 
     @action(methods=['get'], detail=False, url_path='listLixeiraReclamacoes') 
     def listLixeiraReclamacoes(self,request):
         id_str = "id"
-        id = self.request.GET.get(id_str)
-        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id=id, trash=True, request=request))
+        id = request.GET.get(id_str)
+        return Response(status=status.HTTP_200_OK, data=list_by_user_trash(id=id, trash=True, request=request))
