@@ -33,18 +33,18 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
 
         for r in reclamacoes:
             get_solicitacao(r)
-            
+
         return solicitacoes_array 
 
     @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
     def list_by_user(self, request):
         id_str = "id"
-        id = self.request.GET.get(id_str) or self.request.session[id_str]
+        id = self.request.GET.get(id_str)
         data = self.list_by_user_trash(id=id, trash=False, request=request)
         return Response(status=status.HTTP_200_OK, data=data)
 
     @action(methods=['get'], detail=False, url_path='listLixeiraReclamacoes') 
     def listLixeiraReclamacoes(self,request):
         id_str = "id"
-        id = self.request.GET.get(id_str) or self.request.session[id_str]
+        id = self.request.GET.get(id_str)
         return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id=id, trash=True, request=request))
