@@ -39,10 +39,10 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
     def list_by_user(self, request):
         id_str = "id"
         id = self.request.GET.get(id_str) or self.request.session[id_str]
-        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id, False, request))
+        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id=id, trash=False, request=request))
 
     @action(methods=['get'], detail=False, url_path='listLixeiraReclamacoes') 
     def listLixeiraReclamacoes(self,request):
         id_str = "id"
         id = self.request.GET.get(id_str) or self.request.session[id_str]
-        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id, True, request))
+        return Response(status=status.HTTP_200_OK, data=self.list_by_user_trash(id=id, trash=True, request=request))
