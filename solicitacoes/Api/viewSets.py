@@ -59,7 +59,7 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         id = request.GET.get(id_str)
         status_data = request.data
         s = solicitacoes.objects.filter(id=id).get()
-        s.status_concluido = status_data['status_concluido']
+        s.statusConcluido = status_data['status_concluido']
         solicitacoes.save(s)
         return Response(status=status.HTTP_200_OK)
 
