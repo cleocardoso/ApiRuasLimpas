@@ -43,7 +43,7 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         for r in reclamacoes:
             get_solicitacao(reclamacoes=r, solicitacoes_array=solicitacoes_array, request=request)
 
-        return solicitacoes_array
+        return Response(status=status.HTTP_200_OK, data=solicitacoes_array)
 
     @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
     def list_by_user(self, request):
