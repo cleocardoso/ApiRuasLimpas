@@ -8,12 +8,7 @@ from solicitacoes.models import solicitacoes
 from solicitacoes.Api import serializers
 from usuarios.models import usuario
 
-def list_by_user_trash(id, trash, request):
-        solicitacoes_array = []
-        user = usuario.objects.get(id=id)
-        reclamacoes = Reclamacoes.objects.filter(usuario=user, trash=trash).order_by('id')
-
-        def get_solicitacao(reclamacoes):
+def get_solicitacao(reclamacoes, solicitacoes_array, request):
             solicitacao_by_user = solicitacoes.objects.filter(reclamacoes=reclamacoes.id).first()
             #for s in solicitacao_by_user:
             #    print(s)
@@ -26,8 +21,13 @@ def list_by_user_trash(id, trash, request):
                 }
                 solicitacoes_array.append(data)
 
+def list_by_user_trash(id, trash, request):
+        solicitacoes_array = []
+        user = usuario.objects.get(id=id)
+        reclamacoes = Reclamacoes.objects.filter(usuario=user, trash=trash).order_by('id')
+
         for r in reclamacoes:
-            get_solicitacao(r)
+            get_solicitacao(reclamacoes=r, solicitacoes_array=solicitacoes_array, request=request)
 
         return solicitacoes_array 
 
@@ -35,7 +35,15 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = serializers.solicitacaoesSerializer
     queryset = solicitacoes.objects.all()
 
-    
+    #ele vai subreescrever esse metodo da class
+    def list(self, request, *args, **kwargs):
+        solicitacoes_array = []
+        reclamacoes = Reclamacoes.objects.all()
+
+        for r in reclamacoes:
+            get_solicitacao(reclamacoes=r, solicitacoes_array=solicitacoes_array, request=request)
+
+        return solicitacoes_array
 
     @action(methods=['get'], detail=False, url_path='listaSolicitacoes')
     def list_by_user(self, request):
@@ -43,6 +51,17 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
         id = request.GET.get(id_str)
         data = list_by_user_trash(id=id, trash=False, request=request)
         return Response(status=status.HTTP_200_OK, data=data)
+
+    @action(methods=['put'], detail=False, url_path='atualizarSolicitacoes')
+    def atualizarSolicitacoes(self, request):
+        id_str = "id"
+        id = request.GET.get(id_str)
+        status_data = request.data
+        s = solicitacoes.objects.filter(id=id).get()
+        s.status_concluido = status_data['status_concluido']
+        solicitacoes.save(s)
+        return Response(status=status.HTTP_200_OK)
+
 
     @action(methods=['get'], detail=False, url_path='listLixeiraReclamacoes') 
     def listLixeiraReclamacoes(self,request):
