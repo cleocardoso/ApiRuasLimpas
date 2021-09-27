@@ -14,6 +14,7 @@ def get_solicitacao(reclamacoes, solicitacoes_array, request):
             #    print(s)
             if solicitacao_by_user:
                 data = {
+                    "id": solicitacao_by_user.id,
                     "data": solicitacao_by_user.data_solicitada,
                     "statusConcluido": solicitacao_by_user.status_concluido,
                     "reclamacoes": ReclamacoesSerializer(instance=reclamacoes,
