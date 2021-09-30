@@ -1,10 +1,10 @@
 from rest_framework import viewsets, request, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 import usuarios
 from usuarios.Api import serializers
-from usuarios.Api.serializers import UsuarioSerializer
+from usuarios.Api.serializers import UserSerializer, UsuarioSerializer
 from usuarios.models import usuario
 
 
@@ -27,14 +27,22 @@ class UsuariosViewsSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_200_OK,
                             data=data)
 
-        #def get_super():
-        #    user = User.objects.get(email=email, password=senha)
-        #    if user:
-
+        def get_super():
+            user = authenticate(username=email, password=senha)
+            if user:
+                data = {
+                    "user": UserSerializer(instance=user, context={'request': request}).data,
+                    "is_admin": True
+                }    
+                return Response(status=status.HTTP_200_OK,
+                            data=data)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+                            
         try:
             user = usuario.objects.get(email=email, senha=senha)
             if user:
                 return get_user(user)
+            return get_super()
+                
         except:
-            print()
-        return Response(status=status.HTTP_404_NOT_FOUND)
+            return get_super()
