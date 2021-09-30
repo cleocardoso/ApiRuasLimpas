@@ -1,7 +1,7 @@
 from rest_framework import viewsets, request, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from django.contrib.auth.models import User
 import usuarios
 from usuarios.Api import serializers
 from usuarios.Api.serializers import UsuarioSerializer
@@ -27,6 +27,9 @@ class UsuariosViewsSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_200_OK,
                             data=data)
 
+        #def get_super():
+        #    user = User.objects.get(email=email, password=senha)
+        #    if user:
 
         try:
             user = usuario.objects.get(email=email, senha=senha)
