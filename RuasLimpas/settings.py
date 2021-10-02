@@ -80,8 +80,7 @@ WSGI_APPLICATION = 'RuasLimpas.wsgi.application'
 DATABASES = {
     'default': db.config(
         'DATABASE_URL',
-        default='sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3')),
-        cast=db_url),
+        default='sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))),
 }
 
 
