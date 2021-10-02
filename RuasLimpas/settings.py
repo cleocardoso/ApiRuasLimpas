@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 import psycopg2 as psy
 from dj_database_url import parse as db_url
-import dj_database_url as config
+import dj_database_url as db
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'RuasLimpas.wsgi.application'
 
 
 DATABASES = {
-    'default': config(
+    'default': db.config(
         'DATABASE_URL',
         default='sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3')),
         cast=db_url),
