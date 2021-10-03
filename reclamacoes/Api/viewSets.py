@@ -7,6 +7,7 @@ from reclamacoes.models import Reclamacoes, Categoria
 from reclamacoes.serializers import reclamacoesSerializer
 from solicitacoes.models import solicitacoes
 from usuarios.models import usuario
+from datetime import datetime
 
 class categoriaViewsSet(viewsets.ModelViewSet):
     serializer_class = CategoriaSerializer
@@ -61,4 +62,13 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
         Reclamacoes.save(reclamacao)
         return Response(status=status.HTTP_200_OK)
 
-    
+    @action(methods=['get'], detail=False, url_path='total_por_mes')
+    def total_por_mes(self, request):
+        data = datetime.now()
+        total = len(Reclamacoes.objects.filter(
+            Q(data_reclamacao__month=data.month)
+            & Q(data_reclamacao__year=data.year)
+        ).all())
+        return Response(status=status.HTTP_200_OK, data={
+            "size": total
+        })

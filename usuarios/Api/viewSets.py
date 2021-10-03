@@ -46,3 +46,26 @@ class UsuariosViewsSet(viewsets.ModelViewSet):
                 
         except:
             return get_super()
+    @action(methods=['get'], detail=False, url_path='total_por_mes')
+    def total_por_mes(self, request):
+        data = datetime.now()
+        total = len(usuario.objects.filter(
+            Q(data_criacao__month=data.month)
+            & Q(data_criacao__year=data.year)
+        ).all())
+        return Response(status=status.HTTP_200_OK, data={
+            "size": total
+        })
+
+    @action(methods=['post'], detail=False, url_path='logout')
+    def logout(self, request):
+        id = request.data.get('id')
+        try:
+            user = usuario.objects.get(id=id)
+            if user:
+                user.data_ultimo_acesso = datetime.now()
+                usuario.save(user)
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        except:
+            print()
+        return Response(status=status.HTTP_404_NOT_FOUND)
