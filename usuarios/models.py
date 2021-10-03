@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import uuid4
 
 from django.db import models
@@ -15,6 +16,8 @@ class usuario(models.Model):
     senha = models.CharField(max_length=50)
     foto = models.ImageField(upload_to=upload_Image_user, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    data = models.DateTimeField(null=True, blank=True, default=datetime.now(), name='data_criacao')
+    ultimo_acesso = models.DateTimeField(null=True, blank=True, name='data_ultimo_acesso')
 
     def __str__(self):
 
@@ -22,4 +25,3 @@ class usuario(models.Model):
 
     class Meta:
         db_table = 'usuario'
-
