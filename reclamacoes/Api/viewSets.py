@@ -26,8 +26,8 @@ class categoriaViewsSet(viewsets.ModelViewSet):
     def listCategoria(self,request):
         categoria_array = []
         
-        user = usuario.objects.get(id=id)
-        categoria = Categoria.objects.filter(usuario=user, trash=True).order_by('id')
+        
+        categoria = Categoria.objects.filter( trash=True)
         for c in categoria:
             categoria(categoria=c,categoria_array=categoria_array, request=request)
 
