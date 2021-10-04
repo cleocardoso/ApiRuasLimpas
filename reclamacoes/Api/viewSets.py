@@ -32,10 +32,7 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         for c in categoria:
             categoria(categoria=c,categoria_array=categoria_array, request=request)
 
-        return Response(status=status.HTTP_200_OK,
-                        data=categoriaSerializer(instance=categoria,
-                                                many=True,
-                                                context={'request': request}).data)
+        return solicitacoes_array 
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
