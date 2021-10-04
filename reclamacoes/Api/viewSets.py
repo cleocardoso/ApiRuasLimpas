@@ -32,7 +32,7 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         for c in categoria:
             categoria(categoria=c,categoria_array=categoria_array, request=request)
 
-        return solicitacoes_array 
+        return categoria_array 
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
