@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from reclamacoes.Api.serializers import ReclamacoesSerializer, CategoriaSerializer
 from reclamacoes.models import Reclamacoes, Categoria
-from reclamacoes.serializers import reclamacoesSerializer
+from reclamacoes.serializers import categoriaSerializer, reclamacoesSerializer
 from solicitacoes.models import solicitacoes
 from usuarios.models import usuario
 from datetime import datetime
@@ -13,6 +13,26 @@ from django.db.models import Q
 class categoriaViewsSet(viewsets.ModelViewSet):
     serializer_class = CategoriaSerializer
     queryset = Categoria.objects.all()
+
+    @action(methods=['delete'], detail=False, url_path='deletarCategoria')         
+    def deletarCategoria(self, request):
+        id=request.GET.get('id')
+        categoria = Categoria.objects.filter(id=id).get()
+        categoria.trash = True
+        Categoria.save(categoria)
+        return Response(status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=False, url_path='listCategoria')
+    def listCategoria(self, request):
+        id_str = "id"
+        id = self.request.GET.get(id_str) or self.request.session[id_str]
+        user = usuario.objects.get(id=id)
+        categoria = Categoria.objects.filter(usuario=user, trash=False).order_by('id')
+
+        return Response(status=status.HTTP_200_OK,
+                        data=categoriaSerializer(instance=categoria,
+                                                many=True,
+                                                context={'request': request}).data)
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
