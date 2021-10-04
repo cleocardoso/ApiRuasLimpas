@@ -28,7 +28,7 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         id = "id"
         id = self.request.GET.get(id) or self.request.session[id]
         user = usuario.objects.get(id=id)
-        categoria = Categoria.objects.filter(usuario=user, trash=False).order_by('id')
+        categoria = Categoria.objects.filter(usuario=user, trash=True).order_by('id')
         for c in categoria:
             categoria(categoria=c,categoria_array=categoria_array, request=request)
 
