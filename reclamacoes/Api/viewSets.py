@@ -23,10 +23,10 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=False, url_path='listCategoria')
-    def listCategoria(self, id,request):
+    def listCategoria(self,request):
         categoria_array = []
-        id_cat = "id"
-        id = self.request.GET.get(id_cat) or self.request.session[id_cat]
+        id = "id"
+        id = self.request.GET.get(id) or self.request.session[id]
         user = usuario.objects.get(id=id)
         categoria = Categoria.objects.filter(usuario=user, trash=False).order_by('id')
         for c in categoria:
