@@ -7,6 +7,7 @@ from usuarios.Api import serializers
 from usuarios.Api.serializers import UserSerializer, UsuarioSerializer
 from usuarios.models import usuario
 from datetime import datetime
+from django.db.models import Q
 
 
 class UsuariosViewsSet(viewsets.ModelViewSet):

@@ -8,6 +8,7 @@ from reclamacoes.serializers import reclamacoesSerializer
 from solicitacoes.models import solicitacoes
 from usuarios.models import usuario
 from datetime import datetime
+from django.db.models import Q
 
 class categoriaViewsSet(viewsets.ModelViewSet):
     serializer_class = CategoriaSerializer
