@@ -28,7 +28,12 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         categorias = Categoria.objects.filter(trash=False).all()
         return Response(status=status.HTTP_200_OK, data=CategoriaSerializer(instance=categorias, many=True,
                                                 context={'request': request}).data)
-         
+
+    @action(methods=['get'], detail=False, url_path='listLixeiraCategorias') 
+    def listLixeiraCategorias(self,request):
+        id_str = "id"
+        id = request.GET.get(id_str)
+        return Response(status=status.HTTP_200_OK, data=list(id=id, trash=True, request=request))
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
