@@ -108,3 +108,23 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK, data={
             "size": total
         })
+    
+    @action(methods=['get'], detail=False, url_path='total_por_mes_pelo_user')
+    def total_por_mes(self, request):
+        id=request.GET.get('id')
+        try:
+            user = usuario.objects.get(id=id)
+            data = datetime.now()
+            total = len(Reclamacoes.objects.filter(
+                Q(data_reclamacao__month=data.month)
+                & Q(data_reclamacao__year=data.year)
+                & Q(usuario=user)
+                & Q(trash=False)
+            ).all())
+            return Response(status=status.HTTP_200_OK, data={
+                "size": total
+            })
+        except:
+            return Response(status=status.HTTP_200_OK, data={
+                "size": 0
+            })
