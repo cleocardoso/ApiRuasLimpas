@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from reclamacoes.Api.serializers import ReclamacoesSerializer, CategoriaSerializer
 from reclamacoes.models import Reclamacoes, Categoria
 from reclamacoes.serializers import categoriaSerializer, reclamacoesSerializer
+from solicitacoes.Api.viewSets import list_by_user_trash
 from solicitacoes.models import solicitacoes
 from usuarios.models import usuario
 from datetime import datetime
@@ -33,7 +34,7 @@ class categoriaViewsSet(viewsets.ModelViewSet):
     def listLixeiraCategorias(self,request):
         id_str = "id"
         id = request.GET.get(id_str)
-        return Response(status=status.HTTP_200_OK, data=list(id=id, trash=True, request=request))
+        return Response(status=status.HTTP_200_OK, data=list_by_user_trash(id=id, trash=True, request=request))
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
