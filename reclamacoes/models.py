@@ -16,7 +16,9 @@ class Categoria(models.Model):
         ('Poldar árvores', 'Poldar árvores'),
         ('Outros', 'Outros'),
     )
-    nome = models.CharField(max_length=500, choices=LOAN_STATUS, blank=True)
+    nome = models.CharField(max_length=500, 
+    #choices=LOAN_STATUS,
+     blank=True)
     trash = models.BooleanField(default=False)                                                      
     def __str__(self):
         return self.nome

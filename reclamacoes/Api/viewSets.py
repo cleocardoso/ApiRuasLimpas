@@ -30,6 +30,17 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK, data=CategoriaSerializer(instance=categorias, many=True,
                                                 context={'request': request}).data)
 
+    @action(methods=['put'], detail=False, url_path='atualiza')
+    def atualiza(self,request):
+        print("OK")
+        id_str = "id"
+        id = request.GET.get(id_str)
+        categoria = Categoria.objects.get(id=id)
+        print(categoria)
+        categoria.nome = request.data.get('nome')
+        Categoria.save(categoria)
+        return Response(status=status.HTTP_200_OK)
+
     @action(methods=['get'], detail=False, url_path='listLixeiraCategorias') 
     def listLixeiraCategorias(self,request):
         id_str = "id"

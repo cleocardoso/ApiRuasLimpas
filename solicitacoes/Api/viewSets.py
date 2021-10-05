@@ -55,11 +55,14 @@ class SolicitacoesViewsSet(viewsets.ModelViewSet):
 
     @action(methods=['put'], detail=False, url_path='atualizarSolicitacoes')
     def atualizarSolicitacoes(self, request):
+        def str2bool(v):
+            return v.lower() in ("yes", "true", "t", "1")
+
         id_str = "id"
         id = request.GET.get(id_str)
         status_data = request.data
         s = solicitacoes.objects.filter(id=id).get()
-        s.statusConcluido = status_data['status_concluido']
+        s.status_concluido = str2bool(status_data['status_concluido'])
         solicitacoes.save(s)
         return Response(status=status.HTTP_200_OK)
 
