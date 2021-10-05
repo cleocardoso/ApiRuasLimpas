@@ -24,15 +24,11 @@ class categoriaViewsSet(viewsets.ModelViewSet):
 
     #@action(methods=['get'], detail=False, url_path='listCategoria')
     def list(self,request):
-        #categoria_array = []
-        #user = usuario.objects.get()
+       
         categorias = Categoria.objects.filter(trash=False).all()
         return Response(status=status.HTTP_200_OK, data=CategoriaSerializer(instance=categorias, many=True,
                                                 context={'request': request}).data)
-        #for c in categoria:
-        #    categoria(categoria=c,categoria_array=categoria_array, request=request)
-
-        #return categoria_array 
+         
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
