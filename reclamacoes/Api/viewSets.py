@@ -90,7 +90,9 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
     @action(methods=['delete'], detail=False, url_path='deletarReclamacoes')         
     def deletarReclamacao(self, request):
         id=request.GET.get('id')
-        reclamacao = Reclamacoes.objects.filter(id=id).get()
+        idUser=request.GET.get('idUser')
+        user = usuario.objects.get(id=idUser)
+        reclamacao = Reclamacoes.objects.filter(usuario=user, id=id).get()
         #reclamacao.delete()
         reclamacao.trash = True
         Reclamacoes.save(reclamacao)
