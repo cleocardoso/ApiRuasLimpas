@@ -26,7 +26,7 @@ class categoriaViewsSet(viewsets.ModelViewSet):
     def list(self,request):
         #categoria_array = []
         #user = usuario.objects.get()
-        categorias = Categoria.objects.filter(trash=True).all()
+        categorias = Categoria.objects.filter(trash=False).all()
         return Response(status=status.HTTP_200_OK, data=CategoriaSerializer(instance=categorias, many=True,
                                                 context={'request': request}).data)
         #for c in categoria:
