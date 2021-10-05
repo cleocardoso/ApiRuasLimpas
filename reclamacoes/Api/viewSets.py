@@ -110,7 +110,7 @@ class ReclamacoesViewsSet(viewsets.ModelViewSet):
         })
     
     @action(methods=['get'], detail=False, url_path='total_por_mes_pelo_user')
-    def total_por_mes(self, request):
+    def total_por_mes_por_user(self, request):
         id=request.GET.get('id')
         try:
             user = usuario.objects.get(id=id)
