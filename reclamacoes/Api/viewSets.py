@@ -23,7 +23,7 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=False, url_path='listCategoria')
-    def listCategoria(self, id,request):
+    def listCategoria(self,request):
         categoria_array = []
         user = usuario.objects.get()
         categoria = Categoria.objects.filter(usuario=user, trash=True)
