@@ -22,15 +22,17 @@ class categoriaViewsSet(viewsets.ModelViewSet):
         Categoria.save(categoria)
         return Response(status=status.HTTP_200_OK)
 
-    @action(methods=['get'], detail=False, url_path='listCategoria')
-    def listCategoria(self,request):
-        categoria_array = []
-        user = usuario.objects.get()
-        categoria = Categoria.objects.filter(usuario=user, trash=True)
-        for c in categoria:
-            categoria(categoria=c,categoria_array=categoria_array, request=request)
+    #@action(methods=['get'], detail=False, url_path='listCategoria')
+    def list(self,request):
+        #categoria_array = []
+        #user = usuario.objects.get()
+        categorias = Categoria.objects.filter(trash=True).all()
+        return Response(status=status.HTTP_200_OK, data=CategoriaSerializer(instance=categorias, many=True,
+                                                context={'request': request}).data)
+        #for c in categoria:
+        #    categoria(categoria=c,categoria_array=categoria_array, request=request)
 
-        return categoria_array 
+        #return categoria_array 
 
 class ReclamacoesViewsSet(viewsets.ModelViewSet):
     serializer_class = ReclamacoesSerializer
